@@ -7,11 +7,11 @@ This Module provides a mailserver with postfix as SMTP-Server and dovecot as IMA
 Dependencies:
 ============
 
-mjhas/postfix
-mjhas/dovecot
-mjhas/amavis
-mjhas/clamav
-puppetlabs/postgresql
+- postfix
+- dovecot
+- amavis
+- clamav
+- postgresql
 
 
 Prerequisites:
@@ -23,8 +23,15 @@ Simplest Configuration:
 =============
 
     class { 'mailserver':
-      ssl_key_file=>'/etc/ssl/private/ssl-cert-snakeoil.key',
-      ssl_cert_file=>'/etc/ssl/certs/ssl-cert-snakeoil.pem',
-      dbpassword=>'password',
-      dbuser=>'username',
+      ssl_key_file  =>'/etc/ssl/private/ssl-cert-snakeoil.key',
+      ssl_cert_file =>'/etc/ssl/certs/ssl-cert-snakeoil.pem',
+      dbpassword    =>'password',
+      dbuser        =>'username',
+      domains	    => ["$::fqdn"],
+      users         => { "root@${::fqdn}" => { 
+  	                 password=> 'wt3T3FHETdggQ', quota => '100000' }
+                       }
     }
+
+Passwords have to be encrypted beforehand, use the following: 
+    perl -e 'print crypt('password','salt')."\n"'

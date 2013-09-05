@@ -1,6 +1,8 @@
 class mailserver (
   $dbuser,
   $dbpassword,
+  $domains               = [],
+  $users                 = {}, 
   $dbname                = 'mail',
   $mydestination         = 'localhost, localhost.localdomain',
   $myhostname            = 'localhost',
@@ -11,11 +13,19 @@ class mailserver (
   $ssl_ca_file           = undef,
   $postmaster_address    = "root@${::fqdn}",
   $message_size_limit    = '60485760',
+  $default_quota         = '10485760',
 ) {
   include clamav
   Class['amavis'] -> Class['clamav']
   include amavis
-
+  $users_defaults = {
+	  'quota'      => $default_quota,
+	  'dbname'     => $dbname,
+  }
+  create_resources(mailuser, $users, $users_defaults)
+  maildomain { $domains :
+  	dbname=>$dbname,
+  }
   class { 'amavis::config':
     bypass_virus_checks_maps => '(\%bypass_virus_checks, \@bypass_virus_checks_acl, \$bypass_virus_checks_re);',
     bypass_spam_checks_maps  => '(\%bypass_spam_checks, \@bypass_spam_checks_acl, \$bypass_spam_checks_re);',
@@ -31,7 +41,7 @@ class mailserver (
     password => $dbpassword
   }
 
-  postgresql::validate_db_connection { "${dbname}-connection-validate":
+  postgresql::validate_db_connection { "public.connection-validate":
     database_host     => 'localhost',
     database_username => $dbuser,
     database_password => $dbpassword,
@@ -65,7 +75,7 @@ CREATE TABLE users (
 ALTER TABLE public.users OWNER TO ${dbuser};
 ALTER TABLE ONLY transport
     ADD CONSTRAINT domain UNIQUE (domain); ",
-    unless  => 'SELECT table_name FROM information_schema.tables WHERE table_schema LIKE \'public\' AND table_name LIKE \'forwardings\' or table_name LIKE \'domains\' or table_name LIKE \'transport\' or table_name LIKE \'users\'',
+    unless  => "SELECT table_name FROM information_schema.tables WHERE table_catalog LIKE '${dbname}' AND table_schema LIKE 'public' AND (table_name LIKE 'forwardings' or table_name LIKE 'domains' or table_name LIKE 'transport' or table_name LIKE 'users')",
   }
 
   Service['dovecot'] -> Package['postfix']

@@ -12,4 +12,9 @@ class { 'mailserver':
   ssl_cert_file =>'/etc/ssl/certs/ssl-cert-snakeoil.pem',
   dbpassword    =>'password',
   dbuser        =>'username',
+  domains	=> ["$::fqdn"],
+  users	=> { "root@${::fqdn}" => { 
+  	password=> 'wt3T3FHETdggQ', quota => '100000' }
+  },
+  default_quota => '10485760',
 }
