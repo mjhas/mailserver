@@ -3,6 +3,7 @@ class mailserver (
   $dbpassword,
   $domains               = [],
   $users                 = {}, 
+  $forwards              = {}, 
   $dbname                = 'mail',
   $mydestination         = 'localhost, localhost.localdomain',
   $myhostname            = 'localhost',
@@ -22,7 +23,11 @@ class mailserver (
 	  'quota'      => $default_quota,
 	  'dbname'     => $dbname,
   }
+  $forwards_defaults = {
+	  'dbname'     => $dbname,
+  }
   create_resources(mailuser, $users, $users_defaults)
+  create_resources(mailforwards, $forwards, $forwards_defaults)
   maildomain { $domains :
   	dbname=>$dbname,
   }
@@ -143,6 +148,7 @@ ALTER TABLE ONLY transport
     virtual_transport                    => 'dovecot',
     dovecot_destination_recipient_limit  => '1',
     maildrop_destination_recipient_limit => '1',
+    mailbox_size_limit                   => $default_quota,
   }
 
   postfix::config::mastercf { 'smtps':

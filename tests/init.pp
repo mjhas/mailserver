@@ -13,8 +13,14 @@ class { 'mailserver':
   dbpassword    =>'password',
   dbuser        =>'username',
   domains	=> ["$::fqdn"],
-  users	=> { "root@${::fqdn}" => { 
-  	password=> 'wt3T3FHETdggQ', quota => '100000' }
+  forwards      =>  { 
+      "postmaster@${::fqdn}" => { destination => "root@${::fqdn}" },
+      "admin@${::fqdn}"      => { destination => ["root@${::fqdn}","post@${::fqdn}"] }
+  },
+  users	        => { "root@${::fqdn}" => { 
+  			password     => 'wt3T3FHETdggQ',
+			quota => '100000'
+                   }
   },
   default_quota => '10485760',
 }

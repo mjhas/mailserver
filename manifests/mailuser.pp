@@ -2,11 +2,9 @@ define mailuser($dbname,
 		$password,
 		$quota){
   $email=$name
-    postgresql_psql { "public.forwardings-${email}":
-    db      => $dbname,
-    command => "INSERT INTO public.forwardings (source,destination) VALUES ('${email}','${email}');",
-    unless  => "SELECT source FROM public.forwardings WHERE source LIKE '${email}'",
-    require => Postgresql_psql["${dbname}-init-database"]
+  mailforwards { $email: 
+     dbname  =>$dbname,
+     destination =>$email
   }
   postgresql_psql { "public.users-${email}":
     db      => $dbname,
