@@ -1,4 +1,27 @@
 {
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=2.7.20"
+    }
+  ],
+  "types": [
+
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+
+      ]
+    }
+  ],
   "name": "mjhas-mailserver",
   "version": "0.0.3",
   "summary": "",
@@ -15,15 +38,15 @@
     },
     {
       "name": "mjhas/dovecot",
-      "version_requirement": "0.0.6"
+      "version_requirement": "0.0.8"
     },
     {
       "name": "mjhas/postfix",
-      "version_requirement": "0.0.5"
+      "version_requirement": "0.0.8"
     },
     {
       "name": "puppetlabs/postgresql",
-      "version_requirement": "2.4.1"
+      "version_requirement": ">=2.4.1"
     }
   ],
   "types": [],
