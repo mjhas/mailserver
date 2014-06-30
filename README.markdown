@@ -52,3 +52,7 @@ Configuration with forwards
 
 Passwords have to be encrypted beforehand, use the following: 
     perl -e 'print crypt('password','salt')."\n"'
+
+## Contributors
+
+[kisst](https://github.com/kisst)
