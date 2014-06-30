@@ -48,7 +48,7 @@ class mailserver (
 
     include postgresql::server
 
-    postgresql::db { $dbname:
+    postgresql::server::db { $dbname:
       user     => $dbuser,
       password => $dbpassword
     }
@@ -58,7 +58,7 @@ class mailserver (
       database_username => $dbuser,
       database_password => $dbpassword,
       database_name     => $dbname,
-      require           => Postgresql::Db[$dbname],
+      require           => Postgresql::Server::Db[$dbname],
       before            => Postgresql_psql["${dbname}-init-database"],
     }
 
@@ -90,10 +90,9 @@ class mailserver (
       unless  => "SELECT table_name FROM information_schema.tables WHERE table_catalog LIKE '${dbname}' AND table_schema LIKE 'public' AND (table_name LIKE 'forwardings' or table_name LIKE 'domains' or table_name LIKE 'transport' or table_name LIKE 'users')",
     }
 
-    Service['dovecot'] -> Package['postfix']
-    Package['postfix-pgsql'] -> Service['postfix']
+    Package['postfix'] -> Service['dovecot'] 
 
-    Class['amavis::config'] -> Class['postfix']
+    Class['postfix'] -> Class['amavis::config']
 
     class { 'postfix': }
 
