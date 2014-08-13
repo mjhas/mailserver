@@ -231,12 +231,16 @@ class mailserver (
     class { 'dovecot::master': postfix => true, }
 
 
-    include dovecot::mail
+    class { 'dovecot::mail':
+      manage_mailboxfile => false,
+    }
 
     class { 'dovecot::lda': postmaster_address => $postmaster_address }
     include dovecot::imap
     include dovecot::base
-    include dovecot::auth
+    class { 'dovecot::auth':
+      auth_username_format => '%Lu'
+    }
     class { dovecot::postgres:
       dbname     => $dbname,
       dbpassword => $dbpassword,

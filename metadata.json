@@ -19,7 +19,7 @@
     }
   ],
   "name": "mjhas-mailserver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "summary": "This Module provides a mailserver with postfix as SMTP-Server and dovecot as IMAP Server with virtual configuration stored in a postgres database",
   "author": "mjhas",
   "dependencies": [
@@ -33,7 +33,7 @@
     },
     {
       "name": "mjhas/dovecot",
-      "version_requirement": "1.0.0"
+      "version_requirement": "1.0.1"
     },
     {
       "name": "mjhas/postfix",
