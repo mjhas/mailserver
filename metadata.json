@@ -15,38 +15,35 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=2.7.20"
+      "version_requirement": ">=2.7.20 <4.0.0"
     }
   ],
   "name": "mjhas-mailserver",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "summary": "This Module provides a mailserver with postfix as SMTP-Server and dovecot as IMAP Server with virtual configuration stored in a postgres database",
   "author": "mjhas",
-  "description": "This Module provides a mailserver with postfix as SMTP-Server and dovecot as IMAP Server with virtual configuration stored in a postgres database",
   "dependencies": [
     {
       "name": "mjhas/amavis",
-      "version_requirement": "0.0.2"
+      "version_requirement": "1.0.0"
     },
     {
       "name": "mjhas/clamav",
-      "version_requirement": "0.0.1"
+      "version_requirement": "1.0.0"
     },
     {
       "name": "mjhas/dovecot",
-      "version_requirement": "0.0.8"
+      "version_requirement": "1.0.0"
     },
     {
       "name": "mjhas/postfix",
-      "version_requirement": "0.0.8"
+      "version_requirement": "1.0.0"
     },
     {
       "name": "puppetlabs/postgresql",
-      "version_requirement": "=>3.0.0"
+      "version_requirement": ">=3.0.0"
     }
   ],
-  "types": [],
-  "checksums": {},
   "source": "https://github.com/mjhas/mailserver.git",
   "project_page": "https://github.com/mjhas/mailserver.git",
   "license": "Apache License 2.0"

@@ -10,7 +10,7 @@ class mailserver (
   $ssl_cert_file,
   $ssl_ca_file           = undef,
   $postmaster_address    = "root@${::fqdn}",
-  $message_size_limit    = '60485760',
+  $message_size_limit    = '10485760',
   $default_quota         = '10485760',
   $db                    = 'yes',
   $dbname                = 'mail',
@@ -90,7 +90,7 @@ class mailserver (
       unless  => "SELECT table_name FROM information_schema.tables WHERE table_catalog LIKE '${dbname}' AND table_schema LIKE 'public' AND (table_name LIKE 'forwardings' or table_name LIKE 'domains' or table_name LIKE 'transport' or table_name LIKE 'users')",
     }
 
-    Package['postfix'] -> Service['dovecot'] 
+    Package['postfix'] -> Service['dovecot']
 
     Class['postfix'] -> Class['amavis::config']
 
@@ -148,7 +148,7 @@ class mailserver (
       virtual_gid_maps                     => 'static:5000',
       virtual_mailbox_base                 => '/srv/vmail',
       virtual_mailbox_domains              => 'proxy:pgsql:/etc/postfix/postgresql/virtual_domains.cf',
-      virtual_mailbox_limit                => '100000000',
+      virtual_mailbox_limit                => $default_quota,
       virtual_mailbox_maps                 => 'proxy:pgsql:/etc/postfix/postgresql/virtual_mailboxes.cf',
       virtual_uid_maps                     => 'static:5000',
       smtpd_sasl_type                      => 'dovecot',
