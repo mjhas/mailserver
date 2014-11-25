@@ -1,4 +1,4 @@
-define mailforwards($dbname,$destination){
+define mailserver::mailforwards($dbname,$destination){
   $email=$name
   if is_array($destination){
     $joined_destination=join($destination, ",")

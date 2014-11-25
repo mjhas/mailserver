@@ -40,9 +40,9 @@ class mailserver (
     $forwards_defaults = {
   	  'dbname'     => $dbname,
     }
-    create_resources(mailuser, $users, $users_defaults)
-    create_resources(mailforwards, $forwards, $forwards_defaults)
-    maildomain { $domains :
+    create_resources(mailserver::mailuser, $users, $users_defaults)
+    create_resources(mailserver::mailforwards, $forwards, $forwards_defaults)
+    mailserver::maildomain { $domains :
     	dbname=>$dbname,
     }
 
