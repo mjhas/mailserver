@@ -1,8 +1,8 @@
-define mailuser($dbname,
+define mailserver::mailuser($dbname,
 		$password,
 		$quota){
   $email=$name
-  mailforwards { $email: 
+  mailserver::mailforwards { $email: 
      dbname  =>$dbname,
      destination =>$email
   }

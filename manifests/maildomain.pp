@@ -1,4 +1,4 @@
-define maildomain($dbname){
+define mailserver::maildomain($dbname){
 
   postgresql_psql { "${dbname}-domains-${name}":
     db      => $dbname,
